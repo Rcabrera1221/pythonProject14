@@ -8,7 +8,7 @@ import base64
 import glob
 import numpy as np
 from PIL import Image, ImageEnhance, ImageOps
-import random  # <-- Añade esta importación
+import random  
 
 # Inicializa la aplicación Flask
 app = Flask(__name__)
@@ -187,15 +187,15 @@ def upload():
     """Recibe y guarda la imagen enviada desde el navegador."""
     global last_uploaded_image
     try:
-        # Obtén la imagen en base64 desde el formulario
+        # Obtener la imagen en base64 desde el formulario
         img_data = request.form.get('myImage').replace("data:image/png;base64,", "")
         operador = request.form.get('numero')
 
-        # Crea el directorio correspondiente al operador
+        # Crear el directorio correspondiente al operador
         operador_dir = os.path.join(BASE_DIR, operador)
         os.makedirs(operador_dir, exist_ok=True)
 
-        # Guarda la imagen original
+        # Guardar la imagen original
         original_path = os.path.join(operador_dir, f"{operador}_original.png")
         with open(original_path, "wb") as fh:
             fh.write(base64.b64decode(img_data))
@@ -208,7 +208,7 @@ def upload():
         augmented_images = augment_image(image, num_augmented=1250)
         base_name = os.path.splitext(os.path.basename(original_path))[0]
 
-        # Guarda cada imagen aumentada en el mismo directorio
+        # Guardar cada imagen aumentada en el mismo directorio
         for i, aug_image in enumerate(augmented_images):
             new_filename = f"{base_name}_aug_{i}.png"
             save_path = os.path.join(operador_dir, new_filename)
@@ -241,7 +241,7 @@ def download_all():
     zip_filename = "imagenes_generadas.zip"
     zip_filepath = os.path.join(BASE_DIR, zip_filename)
 
-    # Crea un archivo ZIP con todas las imágenes en el directorio, organizadas por operador
+    # Crear un archivo ZIP con todas las imágenes en el directorio, organizadas por operador
     with zipfile.ZipFile(zip_filepath, "w") as zipf:
         for root, dirs, files in os.walk(BASE_DIR):
             for file in files:
